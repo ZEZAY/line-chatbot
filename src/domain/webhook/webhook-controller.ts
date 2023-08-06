@@ -1,6 +1,7 @@
 import Container from 'typedi';
 
 import { Logger } from '../../core/plugin';
+import { Messenger } from '../../domain/messaging';
 import { IController } from '../../core/interface';
 import { WebhookUsecase } from './webhook-usecase';
 import { WebhookEvent } from './webhook-dto';
@@ -12,7 +13,11 @@ export enum WebhookJobName {
 export class WebhookController implements IController {
   controllerName = 'webhook';
 
-  constructor(private webhookUsecase: WebhookUsecase = Container.get('WebhookUsecase'), private logger: Logger = Container.get('Logger')) {}
+  constructor(
+    private webhookUsecase: WebhookUsecase = Container.get('WebhookUsecase'),
+    private logger: Logger = Container.get('Logger'),
+    private messenger: Messenger = Container.get('Messenger'),
+  ) {}
 
   getClassName(): string {
     return this.constructor.name;
@@ -26,7 +31,7 @@ export class WebhookController implements IController {
     switch (name as WebhookJobName) {
       case WebhookJobName.HandleWebhookEvent: {
         // TODO: validate input data
-        return this.webhookUsecase.handleWebhookEvent(data, this.logger);
+        return this.webhookUsecase.handleWebhookEvent(data, this.logger, this.messenger);
       }
       default:
         throw new Error(`Controller does not have job [controller=${this.controllerName}, job=${name}]`);

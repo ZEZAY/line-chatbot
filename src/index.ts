@@ -3,6 +3,7 @@ import Container from 'typedi';
 
 import { newLogger, readConfigFromDotEnv } from './core/plugin';
 import { LineChatbotRoute } from './core/app-route';
+import { Messenger } from './domain/messaging';
 import { WebhookController, WebhookUsecase } from './domain/webhook';
 
 const logger = newLogger();
@@ -10,6 +11,9 @@ Container.set('Logger', logger);
 
 const config = readConfigFromDotEnv();
 Container.set('DotEnvConfig', config);
+
+const messenger = new Messenger();
+Container.set('Messenger', messenger);
 
 const webhookUsecase = new WebhookUsecase();
 const webhookController = new WebhookController(webhookUsecase);
