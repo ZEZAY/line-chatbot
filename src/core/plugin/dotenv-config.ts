@@ -16,6 +16,12 @@ export class DotEnvConfig {
   @IsIn(Object.values(pino.levels.labels))
   readonly LOG_LEVEL: Level = 'info';
 
+  @IsNotEmpty()
+  readonly CHANNEL_ID: string = '';
+
+  @IsNotEmpty()
+  readonly CHANNEL_ACCESS_TOKEN: string = '';
+
   [x: string]: any;
 
   constructor() {
