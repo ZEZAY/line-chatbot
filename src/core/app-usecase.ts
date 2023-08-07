@@ -1,10 +1,12 @@
 import Container from 'typedi';
 
+import { DirectMessagePayload, Messenger } from '../domain/messaging';
 import { WebhookController, WebhookEvent, WebhookJobName, WebhookRequest } from '../domain/webhook';
 import { Logger } from './plugin/logger';
 
 export class LineChatbotUsecase {
   constructor(
+    private messenger: Messenger = Container.get('Messenger'),
     private webhookController: WebhookController = Container.get('WebhookController'),
     private logger: Logger = Container.get('Logger'),
   ) {}
@@ -20,5 +22,9 @@ export class LineChatbotUsecase {
 
     // TODO: update response
     return { isError: false, msg: '___something___' };
+  }
+
+  sendMessageToUser(message: DirectMessagePayload) {
+    this.messenger.sendDirectMessage(message);
   }
 }
