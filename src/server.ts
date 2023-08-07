@@ -6,13 +6,19 @@ import { LineChatbotRoute } from './core/app-route';
 import { errorHandler } from './core/app-error';
 import { Messenger } from './domain/messaging';
 import { WebhookUsecase } from './domain/webhook';
+import { MongoDBUsecase, connectToDatabase } from './domain/mongodb';
 
-export default function createServer(): FastifyInstance {
+export default async function createServer(): Promise<FastifyInstance> {
   const logger = newLogger();
   Container.set('Logger', logger);
 
   const config = readConfigFromDotEnv();
   Container.set('DotEnvConfig', config);
+
+  await connectToDatabase(config.MONGODB_URI, config.MONGODB_DATABASE, config.MONGODB_COLLECTION);
+  const mongoDBUsecase = new MongoDBUsecase();
+  const channelAccessToken = await mongoDBUsecase.getAccessToken(config.CHANNEL_ID);
+  Container.set('ChannelAccessToken', channelAccessToken);
 
   const messenger = new Messenger();
   Container.set('Messenger', messenger);
