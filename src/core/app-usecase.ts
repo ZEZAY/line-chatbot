@@ -1,13 +1,13 @@
 import Container from 'typedi';
 
 import { DirectMessagePayload, Messenger } from '../domain/messaging';
-import { WebhookController, WebhookEvent, WebhookJobName, WebhookRequest } from '../domain/webhook';
+import { WebhookEvent, WebhookRequest, WebhookUsecase } from '../domain/webhook';
 import { Logger } from './plugin/logger';
 
 export class LineChatbotUsecase {
   constructor(
     private messenger: Messenger = Container.get('Messenger'),
-    private webhookController: WebhookController = Container.get('WebhookController'),
+    private webhookUsecase: WebhookUsecase = Container.get('WebhookUsecase'),
     private logger: Logger = Container.get('Logger'),
   ) {}
 
@@ -15,7 +15,7 @@ export class LineChatbotUsecase {
   receiveWebhook(req: WebhookRequest) {
     try {
       const events: WebhookEvent[] = req.body.events || [];
-      events.map(event => this.webhookController.handleJob(WebhookJobName.HandleWebhookEvent, event));
+      events.map(event => this.webhookUsecase.handleWebhookEvent(event, this.logger, this.messenger));
     } catch (err) {
       this.logger.error(`read webhook payload failed, ${err}`);
     }

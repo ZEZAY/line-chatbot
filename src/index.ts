@@ -4,7 +4,7 @@ import Container from 'typedi';
 import { newLogger, readConfigFromDotEnv } from './core/plugin';
 import { LineChatbotRoute } from './core/app-route';
 import { Messenger } from './domain/messaging';
-import { WebhookController, WebhookUsecase } from './domain/webhook';
+import { WebhookUsecase } from './domain/webhook';
 
 const logger = newLogger();
 Container.set('Logger', logger);
@@ -16,8 +16,7 @@ const messenger = new Messenger();
 Container.set('Messenger', messenger);
 
 const webhookUsecase = new WebhookUsecase();
-const webhookController = new WebhookController(webhookUsecase);
-Container.set('WebhookController', webhookController);
+Container.set('WebhookUsecase', WebhookUsecase);
 
 const server = fastify({
   // disableRequestLogging: true,
