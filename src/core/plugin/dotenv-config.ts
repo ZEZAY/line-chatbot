@@ -1,4 +1,4 @@
-import { IsIn, IsNotEmpty, IsPort, validate } from 'class-validator';
+import { Contains, IsIn, IsNotEmpty, IsPort, validate } from 'class-validator';
 import pino, { Level } from 'pino';
 import dotenv from 'dotenv';
 import fs from 'fs';
@@ -19,8 +19,14 @@ export class DotEnvConfig {
   @IsNotEmpty()
   readonly CHANNEL_ID: string = '';
 
+  @Contains('mongodb')
+  readonly MONGODB_URI: string = '';
+
   @IsNotEmpty()
-  readonly CHANNEL_ACCESS_TOKEN: string = '';
+  readonly MONGODB_DATABASE: string = '';
+
+  @IsNotEmpty()
+  readonly MONGODB_COLLECTION: string = '';
 
   [x: string]: any;
 
