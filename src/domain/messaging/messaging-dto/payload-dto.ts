@@ -1,5 +1,6 @@
 import { Static, Type } from '@sinclair/typebox';
-import { Message, TextMessageSchema } from './message-dto';
+
+import { TextMessageSchema } from './message-dto';
 
 export const BroadcastPayloadSchema = Type.Object({
   messages: Type.Array(TextMessageSchema),
