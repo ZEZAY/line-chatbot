@@ -20,11 +20,15 @@ export type ReplyPayload = {
   notificationDisabled?: boolean;
 };
 
-export type PushMessagePayload = {
+export type DirectMessagePayload = {
   to: string;
   messages: Message[];
   notificationDisabled?: boolean;
 };
+
+// TODO: fix this
+// const DirectMessagePayloadSchema: DirectMessagePayload = {
+// };
 
 export type Message =
   | TextMessage

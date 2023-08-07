@@ -2,7 +2,7 @@ import Container from 'typedi';
 import axios, { AxiosRequestConfig } from 'axios';
 
 import { DotEnvConfig, Logger } from '../../core/plugin';
-import { BroadcastPayload, PushMessagePayload, ReplyPayload } from './messaging-dto';
+import { BroadcastPayload, DirectMessagePayload, ReplyPayload } from './messaging-dto';
 
 export class Messenger {
   private config: DotEnvConfig = Container.get('DotEnvConfig');
@@ -33,6 +33,16 @@ export class Messenger {
 
     // TODO: check response
     this.logger.info(`sendReply success`);
+    return response;
+  }
+
+  async sendDirectMessage(payload: DirectMessagePayload) {
+    const response = await axios.post(this.baseUrl + '/push', payload, this.requestConfig).catch(error => {
+      this.logger.error(`sendDirectMessage failed. Error: ${error}. Message: ${error.response.data.message}`);
+    });
+
+    // TODO: check response
+    this.logger.info(`sendDirectMessage success`);
     return response;
   }
 }
