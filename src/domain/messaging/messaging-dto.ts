@@ -9,8 +9,19 @@ type ErrorDetail = {
   property: string;
 };
 
-export type MessagePayload = {
-  replyToken?: string;
+export type BroadcastPayload = {
+  messages: Message[];
+  notificationDisabled?: boolean;
+};
+
+export type ReplyPayload = {
+  replyToken: string;
+  messages: Message[];
+  notificationDisabled?: boolean;
+};
+
+export type PushMessagePayload = {
+  to: string;
   messages: Message[];
   notificationDisabled?: boolean;
 };

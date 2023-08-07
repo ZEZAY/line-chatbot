@@ -2,7 +2,7 @@ import Container from 'typedi';
 import axios, { AxiosRequestConfig } from 'axios';
 
 import { DotEnvConfig, Logger } from '../../core/plugin';
-import { MessagePayload } from './messaging-dto';
+import { BroadcastPayload, PushMessagePayload, ReplyPayload } from './messaging-dto';
 
 export class Messenger {
   private config: DotEnvConfig = Container.get('DotEnvConfig');
@@ -16,7 +16,7 @@ export class Messenger {
 
   constructor(private logger: Logger = Container.get('Logger')) {}
 
-  async sendBroadcast(payload: MessagePayload) {
+  async sendBroadcast(payload: ReplyPayload) {
     const response = await axios.post(this.baseUrl + '/reply', payload, this.requestConfig).catch(error => {
       this.logger.error(`sendBroadcast failed. Error: ${error}. Message: ${error.response.data.message}`);
     });
@@ -26,7 +26,7 @@ export class Messenger {
     return response;
   }
 
-  async sendReply(payload: MessagePayload) {
+  async sendReply(payload: BroadcastPayload) {
     const response = await axios.post(this.baseUrl + '/broadcast', payload, this.requestConfig).catch(error => {
       this.logger.error(`sendReply failed. Error: ${error}. Message: ${error.response.data.message}`);
     });

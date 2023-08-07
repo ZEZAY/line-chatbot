@@ -1,7 +1,7 @@
 import { Container } from 'typedi';
 
 import { Logger } from '../../core/plugin/logger';
-import { MessagePayload, Messenger } from '../../domain/messaging';
+import { ReplyPayload, Messenger } from '../../domain/messaging';
 import { FollowWebhookEvent, MessageWebhookEvent, WebhookEvent, WebhookEventType } from './webhook-dto';
 
 export class WebhookUsecase {
@@ -26,7 +26,7 @@ export class WebhookUsecase {
 
   private handlerMessageEvent(event: MessageWebhookEvent, logger: Logger, messenger: Messenger) {
     try {
-      const reply: MessagePayload = {
+      const reply: ReplyPayload = {
         replyToken: event.replyToken,
         messages: [
           {
