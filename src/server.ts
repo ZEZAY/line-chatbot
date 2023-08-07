@@ -3,9 +3,9 @@ import Container from 'typedi';
 
 import { newLogger, readConfigFromDotEnv } from './core/plugin';
 import { LineChatbotRoute } from './core/app-route';
+import { errorHandler } from './core/app-error';
 import { Messenger } from './domain/messaging';
 import { WebhookUsecase } from './domain/webhook';
-import { errorHandler } from '@core/app-error';
 
 export default function createServer(): FastifyInstance {
   const logger = newLogger();
