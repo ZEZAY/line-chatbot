@@ -17,23 +17,24 @@ type WebhookEventCommonProperties = {
   deliveryContext: DeliveryContext;
 };
 
-export type Source = {
-  readonly type: string;
+export type Source = UserSource | GroupChatSource | MultiPersonChatSource;
+
+export type UserSource = {
+  type: 'user';
+  userId: string;
 };
 
-// export interface UserSourceInterface extends Source {
-//   readonly userId: string;
-// }
+export type GroupChatSource = {
+  type: 'group';
+  userId?: string;
+  groupId: string;
+};
 
-// export interface GroupChatSourceInterface extends Source {
-//   readonly userId?: string;
-//   readonly groupId: string;
-// }
-
-// export interface MultiPersonChatSourceInterface extends Source {
-//   readonly userId?: string;
-//   readonly roomId: string;
-// }
+export type MultiPersonChatSource = {
+  type: 'multi-person';
+  userId?: string;
+  roomId: string;
+};
 
 const DeliveryContextScema = Type.Object({ isRedelivery: Type.Boolean() });
 export type DeliveryContext = Static<typeof DeliveryContextScema>;
