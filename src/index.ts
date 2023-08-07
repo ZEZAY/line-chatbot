@@ -1,44 +1,11 @@
-import fastify from 'fastify';
 import Container from 'typedi';
 
-import { newLogger, readConfigFromDotEnv } from './core/plugin';
-import { LineChatbotRoute } from './core/app-route';
-import { Messenger } from './domain/messaging';
-import { WebhookUsecase } from './domain/webhook';
+import { DotEnvConfig, Logger } from './core/plugin';
+import createServer from './server';
 
-const logger = newLogger();
-Container.set('Logger', logger);
-
-const config = readConfigFromDotEnv();
-Container.set('DotEnvConfig', config);
-
-const messenger = new Messenger();
-Container.set('Messenger', messenger);
-
-const webhookUsecase = new WebhookUsecase();
-Container.set('WebhookUsecase', WebhookUsecase);
-
-const server = fastify({
-  // disableRequestLogging: true,
-  // logger: true,
-});
-
-// TODO: reformat error
-const errorHandler = (error: any, request: any, reply: any) => {
-  logger.error(`server error: ${error}`);
-};
-server.setErrorHandler(errorHandler);
-
-// TODO: check
-// server.addHook('preHandler', async (request, reply) => {
-// });
-
-server.get('/', async () => {
-  logger.info('receive line chatbot api health check');
-  return { hello: 'chatbot' };
-});
-
-server.register(LineChatbotRoute, { prefix: '/' });
+const server = createServer();
+const logger: Logger = Container.get('Logger');
+const config: DotEnvConfig = Container.get('DotEnvConfig');
 
 server.listen({ port: config.CHATBOT_API_PORT, host: config.CHATBOT_API_HOST }, (err, address) => {
   if (err) {
