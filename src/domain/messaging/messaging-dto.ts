@@ -1,6 +1,20 @@
 import { Static, Type } from '@sinclair/typebox';
 
-import { TextMessageSchema } from './message-dto';
+export const TextMessageSchema = Type.Object({
+  type: Type.String(),
+  text: Type.String(),
+});
+
+export const StickerMessageSchema = Type.Object({
+  type: Type.String(),
+  packageId: Type.Number(),
+  stickerId: Type.Number(),
+});
+
+export type Message = TextMessage | StickerMessage;
+
+export type TextMessage = Static<typeof TextMessageSchema>;
+export type StickerMessage = Static<typeof StickerMessageSchema>;
 
 export const BroadcastPayloadSchema = Type.Object({
   messages: Type.Array(TextMessageSchema),
