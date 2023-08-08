@@ -24,7 +24,7 @@ export default async function createServer(): Promise<FastifyInstance> {
   Container.set(Messenger, messenger);
 
   const webhookUsecase = new WebhookUsecase();
-  Container.set('WebhookUsecase', webhookUsecase);
+  Container.set(WebhookUsecase, webhookUsecase);
 
   const server = fastify();
 
