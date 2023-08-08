@@ -8,7 +8,7 @@ export class WebhookUsecase {
   async handleWebhookEvent(
     event: WebhookEvent,
     logger = Container.get(LoggerContainerKey),
-    messenger: Messenger = Container.get('Messenger'),
+    messenger = Container.get(Messenger),
   ): Promise<void> {
     switch (event.type) {
       case WebhookEventType.message:

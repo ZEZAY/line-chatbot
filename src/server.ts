@@ -21,7 +21,7 @@ export default async function createServer(): Promise<FastifyInstance> {
   Container.set(AccessTokenRecordContainerKey, channelAccessToken);
 
   const messenger = new Messenger();
-  Container.set('Messenger', messenger);
+  Container.set(Messenger, messenger);
 
   const webhookUsecase = new WebhookUsecase();
   Container.set('WebhookUsecase', webhookUsecase);

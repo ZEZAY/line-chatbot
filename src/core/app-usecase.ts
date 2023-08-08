@@ -6,7 +6,7 @@ import { LoggerContainerKey } from './plugin/logger';
 
 export class LineChatbotUsecase {
   constructor(
-    private messenger: Messenger = Container.get('Messenger'),
+    private messenger = Container.get(Messenger),
     private webhookUsecase: WebhookUsecase = Container.get('WebhookUsecase'),
     private logger = Container.get(LoggerContainerKey),
   ) {}
