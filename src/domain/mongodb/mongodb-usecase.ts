@@ -11,14 +11,14 @@ export async function connectToDatabase(database_uri: string, database_name: str
   const db: mongoDB.Db = client.db(database_name);
   const collection: mongoDB.Collection = db.collection(collection_name);
 
-  Container.set('MongoDB', db);
-  Container.set('Collection', collection);
+  Container.set(mongoDB.Db, db);
+  Container.set(mongoDB.Collection, collection);
 }
 
 export class MongoDBUsecase {
   constructor(
-    private db: mongoDB.Db = Container.get('MongoDB'),
-    private collection: mongoDB.Collection = Container.get('Collection'),
+    private db: mongoDB.Db = Container.get(mongoDB.Db),
+    private collection: mongoDB.Collection = Container.get(mongoDB.Collection),
     private logger = Container.get(LoggerContainerKey),
   ) {}
 
