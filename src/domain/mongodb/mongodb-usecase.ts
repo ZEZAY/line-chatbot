@@ -22,12 +22,12 @@ export class MongoDBUsecase {
     private logger: Logger = Container.get('Logger'),
   ) {}
 
-  saveAccessToken(channelId: string, token: string) {
+  async saveAccessToken(channelId: string, token: string) {
     const record: AccessTokenRecord = {
       ChannelId: channelId,
       AccessToken: token,
     };
-    this.collection.updateOne(
+    return this.collection.updateOne(
       {
         ChannelId: channelId,
       },
@@ -47,8 +47,8 @@ export class MongoDBUsecase {
     return record.AccessToken;
   }
 
-  updateAccessToken(channelId: string, newToken: string) {
-    this.collection.findOneAndUpdate(
+  async updateAccessToken(channelId: string, newToken: string) {
+    return this.collection.findOneAndUpdate(
       {
         ChannelId: channelId,
       },
@@ -58,7 +58,7 @@ export class MongoDBUsecase {
     );
   }
 
-  deleteAccessToken(channelId: string) {
-    this.collection.findOneAndDelete({ ChannelId: channelId });
+  async deleteAccessToken(channelId: string) {
+    return this.collection.findOneAndDelete({ ChannelId: channelId });
   }
 }
