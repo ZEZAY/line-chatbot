@@ -1,6 +1,6 @@
 import Container from 'typedi';
 
-import {LoggerContainerKey } from './plugin';
+import {LoggerContainerKey } from '.';
 
 export const errorHandler = (error: any, request: any, reply: any) => {
   const logger = Container.get(LoggerContainerKey);
