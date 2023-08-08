@@ -4,17 +4,6 @@ import Container from 'typedi';
 import { LoggerContainerKey } from '../../core/plugin';
 import { AccessTokenRecord } from './mongodb-dto';
 
-export async function connectToDatabase(database_uri: string, database_name: string, collection_name: string) {
-  const client: mongoDB.MongoClient = new mongoDB.MongoClient(database_uri);
-  await client.connect();
-
-  const db: mongoDB.Db = client.db(database_name);
-  const collection: mongoDB.Collection = db.collection(collection_name);
-
-  Container.set(mongoDB.Db, db);
-  Container.set(mongoDB.Collection, collection);
-}
-
 export class MongoDBUsecase {
   constructor(
     private db: mongoDB.Db = Container.get(mongoDB.Db),

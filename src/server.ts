@@ -1,12 +1,12 @@
 import fastify, { FastifyInstance } from 'fastify';
 import Container from 'typedi';
 
-import { DotEnvConfig, LoggerContainerKey, newLogger, readConfigFromDotEnv } from './core/plugin';
+import { DotEnvConfig, LoggerContainerKey, connectToDatabase, newLogger, readConfigFromDotEnv } from './core/plugin';
 import { LineChatbotRoute } from './core/app-route';
 import { errorHandler } from './core/app-error';
 import { Messenger } from './domain/messaging/messaging-service';
 import { WebhookUsecase } from './domain/webhook/webhook-usecase';
-import { MongoDBUsecase, connectToDatabase } from './domain/mongodb/mongodb-usecase';
+import { MongoDBUsecase } from './domain/mongodb/mongodb-usecase';
 import { AccessTokenRecordContainerKey } from './domain/mongodb/mongodb-dto';
 
 export default async function createServer(): Promise<FastifyInstance> {
