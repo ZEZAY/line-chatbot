@@ -4,7 +4,7 @@ import Container from 'typedi';
 import { DotEnvConfig, LoggerContainerKey, newLogger, readConfigFromDotEnv } from './core/plugin';
 import { LineChatbotRoute } from './core/app-route';
 import { errorHandler } from './core/app-error';
-import { Messenger } from './domain/messaging';
+import { Messenger } from './domain/messaging/messaging-service';
 import { WebhookUsecase } from './domain/webhook';
 import { AccessTokenRecordContainerKey, MongoDBUsecase, connectToDatabase } from './domain/mongodb';
 

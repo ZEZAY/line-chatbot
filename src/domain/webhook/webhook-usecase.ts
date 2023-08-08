@@ -1,7 +1,8 @@
 import { Container } from 'typedi';
 
 import { Logger, LoggerContainerKey } from '../../core/plugin/logger';
-import { ReplyPayload, Messenger } from '../../domain/messaging';
+import { Messenger } from '../../domain/messaging/messaging-service';
+import { ReplyPayload } from '../../domain/messaging/messaging-dto';
 import { WebhookEvent, WebhookEventType } from './webhook-dto';
 
 export class WebhookUsecase {

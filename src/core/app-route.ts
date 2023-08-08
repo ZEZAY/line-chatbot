@@ -1,7 +1,7 @@
 import { FastifyInstance } from 'fastify';
 import Container from 'typedi';
 
-import { DirectMessagePayload, DirectMessagePayloadSchema } from '../domain/messaging';
+import { DirectMessagePayload, DirectMessagePayloadSchema } from '../domain/messaging/messaging-dto';
 import { WebhookRequest } from '../domain/webhook';
 import { LineChatbotUsecase } from './app-usecase';
 import { LoggerContainerKey } from './plugin';
