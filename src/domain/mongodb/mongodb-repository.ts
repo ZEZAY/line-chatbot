@@ -4,7 +4,7 @@ import Container from 'typedi';
 import { LoggerContainerKey } from '../../core/plugin';
 import { AccessTokenRecord } from './mongodb-dto';
 
-export class MongoDBUsecase {
+export class MongoDBRepository {
   constructor(
     private db: mongoDB.Db = Container.get(mongoDB.Db),
     private collection: mongoDB.Collection = Container.get(mongoDB.Collection),

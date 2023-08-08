@@ -6,7 +6,7 @@ import { LineChatbotRoute } from './core/app-route';
 import { errorHandler } from './core/app-error';
 import { Messenger } from './domain/messaging/messaging-service';
 import { WebhookUsecase } from './domain/webhook/webhook-usecase';
-import { MongoDBUsecase } from './domain/mongodb/mongodb-usecase';
+import { MongoDBRepository } from './domain/mongodb/mongodb-repository';
 import { AccessTokenRecordContainerKey } from './domain/mongodb/mongodb-dto';
 
 export default async function createServer(): Promise<FastifyInstance> {
@@ -17,8 +17,8 @@ export default async function createServer(): Promise<FastifyInstance> {
   Container.set(DotEnvConfig, config);
 
   await connectToDatabase(config.MONGODB_URI, config.MONGODB_DATABASE, config.MONGODB_COLLECTION);
-  const mongoDBUsecase = new MongoDBUsecase();
-  const channelAccessToken = await mongoDBUsecase.getAccessToken(config.CHANNEL_ID);
+  const mongoDBRepository = new MongoDBRepository();
+  const channelAccessToken = await mongoDBRepository.getAccessToken(config.CHANNEL_ID);
   Container.set(AccessTokenRecordContainerKey, channelAccessToken);
 
   const messenger = new Messenger();
