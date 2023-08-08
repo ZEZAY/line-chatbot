@@ -7,12 +7,12 @@ import { LineChatbotUsecase } from './app-usecase';
 import { Logger } from './plugin';
 
 export async function LineChatbotRoute(fastify: FastifyInstance): Promise<void> {
-  const lineApiUsecase = new LineChatbotUsecase();
+  const lineChatbotUsecase = new LineChatbotUsecase();
   const logger: Logger = Container.get('Logger');
 
   fastify.post('/webhook', async (req: WebhookRequest, res) => {
     logger.info(`receive new webhook`);
-    const response = lineApiUsecase.receiveWebhook(req);
+    const response = lineChatbotUsecase.receiveWebhook(req);
     return response;
   });
 
@@ -26,7 +26,7 @@ export async function LineChatbotRoute(fastify: FastifyInstance): Promise<void> 
     async (req, res) => {
       logger.info(`send a direct message`);
       const messagePayload = req.body;
-      const response = lineApiUsecase.sendMessageToUser(messagePayload);
+      const response = lineChatbotUsecase.sendMessageToUser(messagePayload);
       return response;
     },
   );
