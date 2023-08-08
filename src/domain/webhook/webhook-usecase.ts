@@ -1,13 +1,13 @@
 import { Container } from 'typedi';
 
-import { Logger } from '../../core/plugin/logger';
+import { Logger, LoggerContainerKey } from '../../core/plugin/logger';
 import { ReplyPayload, Messenger } from '../../domain/messaging';
 import { WebhookEvent, WebhookEventType } from './webhook-dto';
 
 export class WebhookUsecase {
   async handleWebhookEvent(
     event: WebhookEvent,
-    logger: Logger = Container.get('Logger'),
+    logger = Container.get(LoggerContainerKey),
     messenger: Messenger = Container.get('Messenger'),
   ): Promise<void> {
     switch (event.type) {

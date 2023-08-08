@@ -3,6 +3,10 @@ import pino, { Level, Logger as PinoLogger } from 'pino';
 
 export type Logger = PinoLogger;
 
+interface LoggerInterface extends Logger {}
+export interface LoggerContainerKey extends LoggerInterface {}
+export class LoggerContainerKey {}
+
 export function newLogger(level: Level = 'info', service = 'line-chatbot-api'): Logger {
   let requestId = 0;
   return pino(

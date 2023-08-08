@@ -1,7 +1,7 @@
 import fastify, { FastifyInstance } from 'fastify';
 import Container from 'typedi';
 
-import { newLogger, readConfigFromDotEnv } from './core/plugin';
+import { LoggerContainerKey, newLogger, readConfigFromDotEnv } from './core/plugin';
 import { LineChatbotRoute } from './core/app-route';
 import { errorHandler } from './core/app-error';
 import { Messenger } from './domain/messaging';
@@ -10,7 +10,7 @@ import { MongoDBUsecase, connectToDatabase } from './domain/mongodb';
 
 export default async function createServer(): Promise<FastifyInstance> {
   const logger = newLogger();
-  Container.set('Logger', logger);
+  Container.set(LoggerContainerKey, logger);
 
   const config = readConfigFromDotEnv();
   Container.set('DotEnvConfig', config);

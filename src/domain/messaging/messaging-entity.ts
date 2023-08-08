@@ -1,7 +1,7 @@
 import Container from 'typedi';
 import axios, { AxiosRequestConfig } from 'axios';
 
-import { Logger } from '../../core/plugin';
+import { LoggerContainerKey } from '../../core/plugin';
 import { BroadcastPayload, DirectMessagePayload, ReplyPayload } from './messaging-dto';
 
 export class Messenger {
@@ -13,7 +13,7 @@ export class Messenger {
     },
   };
 
-  constructor(private channelAccessToken: string = Container.get('ChannelAccessToken'), private logger: Logger = Container.get('Logger')) {}
+  constructor(private channelAccessToken: string = Container.get('ChannelAccessToken'), private logger = Container.get(LoggerContainerKey)) {}
 
   async sendBroadcast(payload: ReplyPayload) {
     const response = await axios.post(this.baseUrl + '/reply', payload, this.requestConfig).catch(error => {

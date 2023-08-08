@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import fs from 'fs';
 import Container from 'typedi';
 
-import { Logger } from './logger';
+import { LoggerContainerKey } from './logger';
 
 export class DotEnvConfig {
   @IsNotEmpty()
@@ -38,7 +38,7 @@ export class DotEnvConfig {
 }
 
 export function readConfigFromDotEnv(): DotEnvConfig {
-  const logger: Logger = Container.get('Logger');
+  const logger = Container.get(LoggerContainerKey);
   const dotenvPath = fs.existsSync('.env') ? '.env' : 'common/config/.env.local';
   logger.info(`readConfigFromDotEnv .env path=${dotenvPath}`);
   dotenv.config({ path: dotenvPath });

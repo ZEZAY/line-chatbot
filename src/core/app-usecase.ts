@@ -2,13 +2,13 @@ import Container from 'typedi';
 
 import { DirectMessagePayload, Messenger } from '../domain/messaging';
 import { WebhookEvent, WebhookRequest, WebhookUsecase } from '../domain/webhook';
-import { Logger } from './plugin/logger';
+import { LoggerContainerKey } from './plugin/logger';
 
 export class LineChatbotUsecase {
   constructor(
     private messenger: Messenger = Container.get('Messenger'),
     private webhookUsecase: WebhookUsecase = Container.get('WebhookUsecase'),
-    private logger: Logger = Container.get('Logger'),
+    private logger = Container.get(LoggerContainerKey),
   ) {}
 
   // TODO: create response struct

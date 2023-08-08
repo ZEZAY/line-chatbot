@@ -1,7 +1,7 @@
 import * as mongoDB from 'mongodb';
 import Container from 'typedi';
 
-import { Logger } from '../../core/plugin';
+import { LoggerContainerKey } from '../../core/plugin';
 import { AccessTokenRecord } from './mongodb-dto';
 
 export async function connectToDatabase(database_uri: string, database_name: string, collection_name: string) {
@@ -19,7 +19,7 @@ export class MongoDBUsecase {
   constructor(
     private db: mongoDB.Db = Container.get('MongoDB'),
     private collection: mongoDB.Collection = Container.get('Collection'),
-    private logger: Logger = Container.get('Logger'),
+    private logger = Container.get(LoggerContainerKey),
   ) {}
 
   async saveAccessToken(channelId: string, token: string) {
