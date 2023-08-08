@@ -5,7 +5,7 @@ import { DotEnvConfig, LoggerContainerKey, newLogger, readConfigFromDotEnv } fro
 import { LineChatbotRoute } from './core/app-route';
 import { errorHandler } from './core/app-error';
 import { Messenger } from './domain/messaging/messaging-service';
-import { WebhookUsecase } from './domain/webhook';
+import { WebhookUsecase } from './domain/webhook/webhook-usecase';
 import { MongoDBUsecase, connectToDatabase } from './domain/mongodb/mongodb-usecase';
 import { AccessTokenRecordContainerKey } from './domain/mongodb/mongodb-dto';
 

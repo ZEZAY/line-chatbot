@@ -2,7 +2,8 @@ import Container from 'typedi';
 
 import { Messenger } from '../domain/messaging/messaging-service';
 import { DirectMessagePayload } from '../domain/messaging/messaging-dto';
-import { WebhookEvent, WebhookRequest, WebhookUsecase } from '../domain/webhook';
+import { WebhookUsecase } from '../domain/webhook/webhook-usecase';
+import { WebhookEvent, WebhookRequest } from '../domain/webhook/webhook-dto';
 import { LoggerContainerKey } from './plugin/logger';
 
 export class LineChatbotUsecase {
