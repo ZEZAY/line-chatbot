@@ -6,18 +6,16 @@ import { ReplyPayload } from '../../domain/messaging/messaging-dto';
 import { WebhookEvent, WebhookEventType } from './webhook-dto';
 
 export class WebhookUsecase {
-  async handleWebhookEvent(
-    event: WebhookEvent,
-    logger = Container.get(LoggerContainerKey),
-    messenger = Container.get(Messenger),
-  ): Promise<void> {
+  constructor(private logger = Container.get(LoggerContainerKey), private messenger = Container.get(Messenger)) {}
+
+  async handleWebhookEvent(event: WebhookEvent): Promise<void> {
     switch (event.type) {
       case WebhookEventType.message:
-        this.handlerMessageEvent(event, logger, messenger);
+        this.handlerMessageEvent(event);
         break;
 
       case WebhookEventType.follow:
-        this.handlerFollowEvent(event, logger, messenger);
+        this.handlerFollowEvent(event);
         break;
 
       default:
@@ -25,7 +23,7 @@ export class WebhookUsecase {
     }
   }
 
-  private handlerMessageEvent(event: WebhookEvent, logger: Logger, messenger: Messenger) {
+  private handlerMessageEvent(event: WebhookEvent) {
     try {
       const reply: ReplyPayload = {
         replyToken: event.replyToken,
@@ -40,15 +38,15 @@ export class WebhookUsecase {
           },
         ],
       };
-      messenger.sendReply(reply);
-      logger.info('handler MessageEvent success');
+      this.messenger.sendReply(reply);
+      this.logger.info('handler MessageEvent success');
     } catch (error) {
-      logger.error(`handler MessageEvent failed. Errors: ${error}`);
+      this.logger.error(`handler MessageEvent failed. Errors: ${error}`);
     }
   }
 
-  private handlerFollowEvent(event: WebhookEvent, logger: Logger, messenger: Messenger) {
+  private handlerFollowEvent(event: WebhookEvent) {
     // TODO: do something
-    logger.info(`handler FollowWebhookEvent`);
+    this.logger.info(`handler FollowWebhookEvent`);
   }
 }

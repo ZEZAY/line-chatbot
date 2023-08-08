@@ -17,7 +17,7 @@ export class LineChatbotUsecase {
   receiveWebhook(req: WebhookRequest) {
     try {
       const events: WebhookEvent[] = req.body.events || [];
-      events.map(event => this.webhookUsecase.handleWebhookEvent(event, this.logger, this.messenger));
+      events.map(event => this.webhookUsecase.handleWebhookEvent(event));
     } catch (err) {
       this.logger.error(`read webhook payload failed, ${err}`);
     }
