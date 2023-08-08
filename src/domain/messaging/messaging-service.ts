@@ -2,7 +2,7 @@ import Container from 'typedi';
 import axios, { AxiosRequestConfig } from 'axios';
 
 import { LoggerContainerKey } from '../../core/plugin';
-import { AccessTokenRecordContainerKey } from '../../domain/mongodb';
+import { AccessTokenRecordContainerKey } from '../mongodb';
 import { BroadcastPayload, DirectMessagePayload, ReplyPayload } from './messaging-dto';
 
 export class Messenger {
