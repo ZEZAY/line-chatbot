@@ -6,7 +6,8 @@ import { LineChatbotRoute } from './core/app-route';
 import { errorHandler } from './core/app-error';
 import { Messenger } from './domain/messaging/messaging-service';
 import { WebhookUsecase } from './domain/webhook';
-import { AccessTokenRecordContainerKey, MongoDBUsecase, connectToDatabase } from './domain/mongodb';
+import { MongoDBUsecase, connectToDatabase } from './domain/mongodb/mongodb-usecase';
+import { AccessTokenRecordContainerKey } from './domain/mongodb/mongodb-dto';
 
 export default async function createServer(): Promise<FastifyInstance> {
   const logger = newLogger();
