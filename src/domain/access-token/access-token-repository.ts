@@ -2,9 +2,9 @@ import * as mongoDB from 'mongodb';
 import Container from 'typedi';
 
 import { LoggerContainerKey } from '../../core/plugin';
-import { AccessTokenRecord } from './mongodb-dto';
+import { AccessTokenRecord } from './access-token-dto';
 
-export class MongoDBRepository {
+export class AccessTokenRepository {
   constructor(
     private db: mongoDB.Db = Container.get(mongoDB.Db),
     private collection: mongoDB.Collection = Container.get(mongoDB.Collection),

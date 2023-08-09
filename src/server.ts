@@ -5,8 +5,8 @@ import { DotEnvConfig, LoggerContainerKey, connectToDatabase, errorHandler, newL
 import { LineChatbotRoute } from './core/route';
 import { Messenger } from './domain/messaging/messaging-service';
 import { WebhookUsecase } from './domain/webhook/webhook-usecase';
-import { MongoDBRepository } from './domain/mongodb/mongodb-repository';
-import { AccessTokenRecordContainerKey } from './domain/mongodb/mongodb-dto';
+import { AccessTokenRepository } from './domain/access-token/access-token-repository';
+import { AccessTokenRecordContainerKey } from './domain/access-token/access-token-dto';
 
 export default async function createServer(): Promise<FastifyInstance> {
   const logger = newLogger();
@@ -16,9 +16,9 @@ export default async function createServer(): Promise<FastifyInstance> {
   Container.set(DotEnvConfig, config);
 
   await connectToDatabase(config.MONGODB_URI, config.MONGODB_DATABASE, config.MONGODB_COLLECTION);
-  const mongoDBRepository = new MongoDBRepository();
-  const channelAccessToken = await mongoDBRepository.getAccessToken(config.CHANNEL_ID);
-  Container.set(AccessTokenRecordContainerKey, channelAccessToken);
+  const accessTokenRepository = new AccessTokenRepository();
+  const accessToken = await accessTokenRepository.getAccessToken(config.CHANNEL_ID);
+  Container.set(AccessTokenRecordContainerKey, accessToken);
 
   const messenger = new Messenger();
   Container.set(Messenger, messenger);
