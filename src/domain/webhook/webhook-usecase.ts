@@ -1,12 +1,12 @@
 import { Container } from 'typedi';
 
 import { LoggerContainerKey } from '../../core/plugin/logger';
-import { Messenger } from '../../domain/messaging/messaging-service';
+import { MessagingUsecase } from '../../domain/messaging/messaging-usecase';
 import { ReplyPayload } from '../../domain/messaging/messaging-dto';
 import { WebhookEvent, WebhookEventType } from './webhook-dto';
 
 export class WebhookUsecase {
-  constructor(private logger = Container.get(LoggerContainerKey), private messenger = Container.get(Messenger)) {}
+  constructor(private messagingUsecase = Container.get(MessagingUsecase), private logger = Container.get(LoggerContainerKey)) {}
 
   async handleWebhookEvent(event: WebhookEvent) {
     switch (event.type) {
@@ -37,7 +37,7 @@ export class WebhookUsecase {
         },
       ],
     };
-    await this.messenger.sendReply(reply).catch(error => {
+    await this.messagingUsecase.sendReplyWithPayload(reply).catch(error => {
       this.logger.error(`handlerMessageEvent failed. Errors: ${error}`);
       return;
     });
@@ -54,7 +54,7 @@ export class WebhookUsecase {
         },
       ],
     };
-    await this.messenger.sendReply(reply).catch(error => {
+    await this.messagingUsecase.sendReplyWithPayload(reply).catch(error => {
       this.logger.error(`handlerFollowEvent failed. Errors: ${error}`);
       return;
     });

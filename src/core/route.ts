@@ -4,11 +4,11 @@ import Container from 'typedi';
 import { DirectMessagePayload, DirectMessagePayloadSchema } from '../domain/messaging/messaging-dto';
 import { WebhookEvent, WebhookRequest } from '../domain/webhook/webhook-dto';
 import { WebhookUsecase } from '../domain/webhook/webhook-usecase';
-import { Messenger } from '../domain/messaging/messaging-service';
+import { MessagingUsecase } from '../domain/messaging/messaging-usecase';
 import { LoggerContainerKey } from './plugin';
 
 export async function LineChatbotRoute(fastify: FastifyInstance): Promise<void> {
-  const messenger = Container.get(Messenger);
+  const messagingUsecase = Container.get(MessagingUsecase);
   const webhookUsecase = Container.get(WebhookUsecase);
   const logger = Container.get(LoggerContainerKey);
 
@@ -34,7 +34,8 @@ export async function LineChatbotRoute(fastify: FastifyInstance): Promise<void> 
     async (req, res) => {
       logger.info(`send a direct message`);
       const messagePayload: DirectMessagePayload = req.body;
-      await messenger.sendDirectMessage(messagePayload).catch(err => {
+
+      await messagingUsecase.sendDirectMessageWithPayload(messagePayload).catch(err => {
         logger.error(`send direct message failed, ${err}`);
         return res.status(500).send({ isError: true, msg: err.message });
       });

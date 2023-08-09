@@ -3,6 +3,7 @@ import Container from 'typedi';
 
 import { DotEnvConfig, LoggerContainerKey, connectToDatabase, errorHandler, newLogger, readConfigFromDotEnv } from './core/plugin';
 import { LineChatbotRoute } from './core/route';
+import { MessagingUsecase } from './domain/messaging/messaging-usecase';
 import { Messenger } from './domain/messaging/messaging-service';
 import { WebhookUsecase } from './domain/webhook/webhook-usecase';
 import { AccessTokenRepository } from './domain/access-token/access-token-repository';
@@ -22,6 +23,9 @@ export default async function createServer(): Promise<FastifyInstance> {
 
   const messenger = new Messenger();
   Container.set(Messenger, messenger);
+
+  const messagingUsecase = new MessagingUsecase();
+  Container.set(MessagingUsecase, messagingUsecase);
 
   const webhookUsecase = new WebhookUsecase();
   Container.set(WebhookUsecase, webhookUsecase);
