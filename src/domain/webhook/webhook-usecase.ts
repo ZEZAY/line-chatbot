@@ -1,22 +1,28 @@
 import { Container } from 'typedi';
 
 import { LoggerContainerKey } from '../../core/plugin/logger';
+import { AccessTokenRepository } from '../../domain/access-token/access-token-repository';
 import { AccessTokenRecord } from '../../domain/access-token/access-token-dto';
 import { MessagingUsecase } from '../../domain/messaging/messaging-usecase';
 import { ReplyPayload } from '../../domain/messaging/messaging-dto';
 import { WebhookEvent, WebhookEventType } from './webhook-dto';
 
 export class WebhookUsecase {
-  constructor(private messagingUsecase = Container.get(MessagingUsecase), private logger = Container.get(LoggerContainerKey)) {}
+  constructor(
+    private messagingUsecase = Container.get(MessagingUsecase),
+    private accessTokenRepo = Container.get(AccessTokenRepository),
+    private logger = Container.get(LoggerContainerKey),
+  ) {}
 
-  async handleWebhookEvent(event: WebhookEvent, accessTokenRecord: AccessTokenRecord) {
+  async handleWebhookEvent(event: WebhookEvent, channelId: string) {
+    const accessToken = await this.accessTokenRepo.getAccessTokenRecord(channelId);
     switch (event.type) {
       case WebhookEventType.message:
-        await this.handlerMessageEvent(event, accessTokenRecord);
+        await this.handlerMessageEvent(event, accessToken);
         break;
 
       case WebhookEventType.follow:
-        await this.handlerFollowEvent(event, accessTokenRecord);
+        await this.handlerFollowEvent(event, accessToken);
         break;
 
       default:
