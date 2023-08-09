@@ -19,7 +19,7 @@ export class Messenger {
     private logger = Container.get(LoggerContainerKey),
   ) {}
 
-  async sendBroadcast(payload: ReplyPayload) {
+  async sendBroadcast(payload: BroadcastPayload) {
     const response = await axios.post(this.baseUrl + '/reply', payload, this.requestConfig).catch(error => {
       throw new Error(`sendBroadcast failed. Error: ${error}. Message: ${error.response.data.message}`);
     });
@@ -29,7 +29,7 @@ export class Messenger {
     return response;
   }
 
-  async sendReply(payload: BroadcastPayload) {
+  async sendReply(payload: ReplyPayload) {
     console.log(this.channelAccessToken);
 
     const response = await axios.post(this.baseUrl + '/broadcast', payload, this.requestConfig).catch(error => {
