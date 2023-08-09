@@ -24,6 +24,7 @@ export class WebhookUsecase {
   }
 
   private async handlerMessageEvent(event: WebhookEvent) {
+    this.logger.debug('handlerMessageEvent');
     const reply: ReplyPayload = {
       replyToken: event.replyToken,
       messages: [
@@ -38,10 +39,10 @@ export class WebhookUsecase {
       ],
     };
     await this.messagingUsecase.sendReplyWithPayload(reply);
-    this.logger.info('handlerMessageEvent success');
   }
 
   private async handlerFollowEvent(event: WebhookEvent) {
+    this.logger.debug('handlerFollowEvent');
     const reply: ReplyPayload = {
       replyToken: event.replyToken,
       messages: [
@@ -52,6 +53,5 @@ export class WebhookUsecase {
       ],
     };
     await this.messagingUsecase.sendReplyWithPayload(reply);
-    this.logger.info('handlerFollowEvent success');
   }
 }

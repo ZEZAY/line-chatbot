@@ -20,20 +20,20 @@ export class MessagingService {
   ) {}
 
   async sendBroadcast(payload: BroadcastPayload) {
-    this.logger.debug(`sendBroadcast`);
     const response = await axios.post(this.baseUrl + '/reply', payload, this.requestConfig);
+    this.logger.info('sendBroadcast success');
     return response;
   }
 
   async sendReply(payload: ReplyPayload) {
-    this.logger.debug(`sendReply`);
     const response = await axios.post(this.baseUrl + '/broadcast', payload, this.requestConfig);
+    this.logger.info('sendReply success');
     return response;
   }
 
   async sendDirectMessage(payload: DirectMessagePayload) {
-    this.logger.debug(`sendDirectMessage`);
     const response = await axios.post(this.baseUrl + '/push', payload, this.requestConfig);
+    this.logger.info('sendDirectMessage success');
     return response;
   }
 }

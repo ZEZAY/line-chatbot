@@ -8,19 +8,21 @@ export class AccessTokenRepository {
   constructor(private collection: Collection<AccessTokenRecord>, private logger = Container.get(LoggerContainerKey)) {}
 
   async setAccessTokenRecord(channelId: string, token: string) {
-    const record: AccessTokenRecord = {
+    const newRecord: AccessTokenRecord = {
       ChannelId: channelId,
       AccessToken: token,
     };
-    return this.collection.updateOne(
+    const record = this.collection.updateOne(
       {
         ChannelId: channelId,
       },
       {
-        $setOnInsert: record,
+        $setOnInsert: newRecord,
       },
       { upsert: true },
     );
+    this.logger.info('setAccessTokenRecord success');
+    return record;
   }
 
   async getAccessTokenRecord(channelId: string) {
@@ -33,7 +35,7 @@ export class AccessTokenRepository {
   }
 
   async updateAccessTokenRecord(channelId: string, newToken: string) {
-    return this.collection.findOneAndUpdate(
+    const record = this.collection.findOneAndUpdate(
       {
         ChannelId: channelId,
       },
@@ -41,9 +43,13 @@ export class AccessTokenRepository {
         $set: { AccessToken: newToken },
       },
     );
+    this.logger.info('updateAccessTokenRecord success');
+    return record;
   }
 
   async deleteAccessTokenRecord(channelId: string) {
-    return this.collection.findOneAndDelete({ ChannelId: channelId });
+    const record = this.collection.findOneAndDelete({ ChannelId: channelId });
+    this.logger.info('deleteAccessTokenRecord success');
+    return record;
   }
 }
