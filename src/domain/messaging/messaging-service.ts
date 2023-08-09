@@ -5,7 +5,7 @@ import { LoggerContainerKey } from '../../core/plugin';
 import { AccessTokenRecordContainerKey } from '../access-token/access-token-dto';
 import { BroadcastPayload, DirectMessagePayload, ReplyPayload } from './messaging-dto';
 
-export class Messenger {
+export class MessagingService {
   private baseUrl = 'https://api.line.me/v2/bot/message';
   private requestConfig: AxiosRequestConfig = {
     headers: {

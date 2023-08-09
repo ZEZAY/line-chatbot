@@ -4,7 +4,7 @@ import Container from 'typedi';
 import { DotEnvConfig, LoggerContainerKey, connectToDatabase, errorHandler, newLogger, readConfigFromDotEnv } from './core/plugin';
 import { LineChatbotRoute } from './core/route';
 import { MessagingUsecase } from './domain/messaging/messaging-usecase';
-import { Messenger } from './domain/messaging/messaging-service';
+import { MessagingService } from './domain/messaging/messaging-service';
 import { WebhookUsecase } from './domain/webhook/webhook-usecase';
 import { AccessTokenRepository } from './domain/access-token/access-token-repository';
 import { AccessTokenRecordContainerKey } from './domain/access-token/access-token-dto';
@@ -21,8 +21,8 @@ export default async function createServer(): Promise<FastifyInstance> {
   const accessTokenRecord = await accessTokenRepository.getAccessTokenRecord(config.CHANNEL_ID);
   Container.set(AccessTokenRecordContainerKey, accessTokenRecord.AccessToken);
 
-  const messenger = new Messenger();
-  Container.set(Messenger, messenger);
+  const messagingService = new MessagingService();
+  Container.set(MessagingService, messagingService);
 
   const messagingUsecase = new MessagingUsecase();
   Container.set(MessagingUsecase, messagingUsecase);
