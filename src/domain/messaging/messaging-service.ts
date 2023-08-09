@@ -20,34 +20,20 @@ export class Messenger {
   ) {}
 
   async sendBroadcast(payload: BroadcastPayload) {
-    const response = await axios.post(this.baseUrl + '/reply', payload, this.requestConfig).catch(error => {
-      throw new Error(`sendBroadcast failed. Error: ${error}. Message: ${error.response.data.message}`);
-    });
-
-    // TODO: check response
-    this.logger.info(`sendBroadcast success`);
+    this.logger.debug(`sendBroadcast`);
+    const response = await axios.post(this.baseUrl + '/reply', payload, this.requestConfig);
     return response;
   }
 
   async sendReply(payload: ReplyPayload) {
-    console.log(this.channelAccessToken);
-
-    const response = await axios.post(this.baseUrl + '/broadcast', payload, this.requestConfig).catch(error => {
-      throw new Error(`sendReply failed. Error: ${error}. Message: ${error.response.data.message}`);
-    });
-
-    // TODO: check response
-    this.logger.info(`sendReply success`);
+    this.logger.debug(`sendReply`);
+    const response = await axios.post(this.baseUrl + '/broadcast', payload, this.requestConfig);
     return response;
   }
 
   async sendDirectMessage(payload: DirectMessagePayload) {
-    const response = await axios.post(this.baseUrl + '/push', payload, this.requestConfig).catch(error => {
-      throw new Error(`sendDirectMessage failed. Error: ${error}. Message: ${error.response.data.message}`);
-    });
-
-    // TODO: check response
-    this.logger.info(`sendDirectMessage success`);
+    this.logger.debug(`sendDirectMessage`);
+    const response = await axios.post(this.baseUrl + '/push', payload, this.requestConfig);
     return response;
   }
 }
