@@ -37,10 +37,7 @@ export class WebhookUsecase {
         },
       ],
     };
-    await this.messagingUsecase.sendReplyWithPayload(reply).catch(error => {
-      this.logger.error(`handlerMessageEvent failed. Errors: ${error}`);
-      return;
-    });
+    await this.messagingUsecase.sendReplyWithPayload(reply);
     this.logger.info('handlerMessageEvent success');
   }
 
@@ -54,10 +51,7 @@ export class WebhookUsecase {
         },
       ],
     };
-    await this.messagingUsecase.sendReplyWithPayload(reply).catch(error => {
-      this.logger.error(`handlerFollowEvent failed. Errors: ${error}`);
-      return;
-    });
+    await this.messagingUsecase.sendReplyWithPayload(reply);
     this.logger.info('handlerFollowEvent success');
   }
 }
