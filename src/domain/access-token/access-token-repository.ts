@@ -1,17 +1,13 @@
-import * as mongoDB from 'mongodb';
+import { Collection } from 'mongodb';
 import Container from 'typedi';
 
 import { LoggerContainerKey } from '../../core/plugin';
 import { AccessTokenRecord } from './access-token-dto';
 
 export class AccessTokenRepository {
-  constructor(
-    private db: mongoDB.Db = Container.get(mongoDB.Db),
-    private collection: mongoDB.Collection = Container.get(mongoDB.Collection),
-    private logger = Container.get(LoggerContainerKey),
-  ) {}
+  constructor(private collection: Collection<AccessTokenRecord>, private logger = Container.get(LoggerContainerKey)) {}
 
-  async saveAccessToken(channelId: string, token: string) {
+  async setAccessTokenRecord(channelId: string, token: string) {
     const record: AccessTokenRecord = {
       ChannelId: channelId,
       AccessToken: token,
@@ -27,16 +23,16 @@ export class AccessTokenRepository {
     );
   }
 
-  async getAccessToken(channelId: string): Promise<string> {
+  async getAccessTokenRecord(channelId: string) {
     const record = await this.collection.findOne<AccessTokenRecord>({ ChannelId: channelId });
     if (!record) {
-      this.logger.error('record not exist');
-      throw new Error(`getAccessToken failed. Error: no record for ChannelId="${channelId}"`);
+      throw new Error(`getAccessToken failed. Error: record not exist for ChannelId="${channelId}"`);
     }
-    return record.AccessToken;
+    this.logger.info('getAccessTokenRecord success');
+    return record;
   }
 
-  async updateAccessToken(channelId: string, newToken: string) {
+  async updateAccessTokenRecord(channelId: string, newToken: string) {
     return this.collection.findOneAndUpdate(
       {
         ChannelId: channelId,
@@ -47,7 +43,7 @@ export class AccessTokenRepository {
     );
   }
 
-  async deleteAccessToken(channelId: string) {
+  async deleteAccessTokenRecord(channelId: string) {
     return this.collection.findOneAndDelete({ ChannelId: channelId });
   }
 }

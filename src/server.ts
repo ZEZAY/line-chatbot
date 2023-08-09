@@ -15,10 +15,10 @@ export default async function createServer(): Promise<FastifyInstance> {
   const config = readConfigFromDotEnv();
   Container.set(DotEnvConfig, config);
 
-  await connectToDatabase(config.MONGODB_URI, config.MONGODB_DATABASE, config.MONGODB_COLLECTION);
-  const accessTokenRepository = new AccessTokenRepository();
-  const accessToken = await accessTokenRepository.getAccessToken(config.CHANNEL_ID);
-  Container.set(AccessTokenRecordContainerKey, accessToken);
+  await connectToDatabase(config.MONGODB_URI, config.MONGODB_DATABASE);
+  const accessTokenRepository = Container.get(AccessTokenRepository);
+  const accessTokenRecord = await accessTokenRepository.getAccessTokenRecord(config.CHANNEL_ID);
+  Container.set(AccessTokenRecordContainerKey, accessTokenRecord.AccessToken);
 
   const messenger = new Messenger();
   Container.set(Messenger, messenger);

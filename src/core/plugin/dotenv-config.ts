@@ -25,9 +25,6 @@ export class DotEnvConfig {
   @IsNotEmpty()
   readonly MONGODB_DATABASE: string = '';
 
-  @IsNotEmpty()
-  readonly MONGODB_COLLECTION: string = '';
-
   [x: string]: any;
 
   constructor() {
