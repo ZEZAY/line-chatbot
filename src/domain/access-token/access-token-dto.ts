@@ -6,7 +6,3 @@ export const AccessTokenRecordSchema = Type.Object({
 });
 
 export type AccessTokenRecord = Static<typeof AccessTokenRecordSchema>;
-
-interface AccessTokenRecordInterface extends AccessTokenRecord {}
-export interface AccessTokenRecordContainerKey extends AccessTokenRecordInterface {}
-export class AccessTokenRecordContainerKey {}

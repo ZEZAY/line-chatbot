@@ -1,6 +1,7 @@
 import { Container } from 'typedi';
 
 import { LoggerContainerKey } from '../../core/plugin/logger';
+import { AccessTokenRecord } from '../../domain/access-token/access-token-dto';
 import { MessagingUsecase } from '../../domain/messaging/messaging-usecase';
 import { ReplyPayload } from '../../domain/messaging/messaging-dto';
 import { WebhookEvent, WebhookEventType } from './webhook-dto';
@@ -8,14 +9,14 @@ import { WebhookEvent, WebhookEventType } from './webhook-dto';
 export class WebhookUsecase {
   constructor(private messagingUsecase = Container.get(MessagingUsecase), private logger = Container.get(LoggerContainerKey)) {}
 
-  async handleWebhookEvent(event: WebhookEvent) {
+  async handleWebhookEvent(event: WebhookEvent, accessTokenRecord: AccessTokenRecord) {
     switch (event.type) {
       case WebhookEventType.message:
-        await this.handlerMessageEvent(event);
+        await this.handlerMessageEvent(event, accessTokenRecord);
         break;
 
       case WebhookEventType.follow:
-        await this.handlerFollowEvent(event);
+        await this.handlerFollowEvent(event, accessTokenRecord);
         break;
 
       default:
@@ -23,7 +24,7 @@ export class WebhookUsecase {
     }
   }
 
-  private async handlerMessageEvent(event: WebhookEvent) {
+  private async handlerMessageEvent(event: WebhookEvent, accessTokenRecord: AccessTokenRecord) {
     this.logger.debug('handlerMessageEvent');
     const reply: ReplyPayload = {
       replyToken: event.replyToken,
@@ -38,10 +39,10 @@ export class WebhookUsecase {
         },
       ],
     };
-    await this.messagingUsecase.sendReplyWithPayload(reply);
+    await this.messagingUsecase.sendReplyWithPayload(reply, accessTokenRecord);
   }
 
-  private async handlerFollowEvent(event: WebhookEvent) {
+  private async handlerFollowEvent(event: WebhookEvent, accessTokenRecord: AccessTokenRecord) {
     this.logger.debug('handlerFollowEvent');
     const reply: ReplyPayload = {
       replyToken: event.replyToken,
@@ -52,6 +53,6 @@ export class WebhookUsecase {
         },
       ],
     };
-    await this.messagingUsecase.sendReplyWithPayload(reply);
+    await this.messagingUsecase.sendReplyWithPayload(reply, accessTokenRecord);
   }
 }

@@ -83,4 +83,4 @@ interface WebhookRequestInterface extends FastifyRequest {
   events: WebhookEvent[];
 }
 
-export type WebhookRequest = FastifyRequest<{ Body: WebhookRequestInterface }>;
+export type WebhookRequest = FastifyRequest<{ Body: WebhookRequestInterface; Params: { channelId: string } }>;

@@ -28,6 +28,7 @@ export const ReplyPayloadSchema = Type.Object({
 });
 
 export const DirectMessagePayloadSchema = Type.Object({
+  channelId: Type.String(),
   to: Type.String(),
   messages: Type.Array(TextMessageSchema),
   notificationDisabled: Type.Optional(Type.Boolean()),

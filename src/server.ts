@@ -6,8 +6,6 @@ import { LineChatbotRoute } from './core/route';
 import { MessagingUsecase } from './domain/messaging/messaging-usecase';
 import { MessagingService } from './domain/messaging/messaging-service';
 import { WebhookUsecase } from './domain/webhook/webhook-usecase';
-import { AccessTokenRepository } from './domain/access-token/access-token-repository';
-import { AccessTokenRecordContainerKey } from './domain/access-token/access-token-dto';
 
 export default async function createServer(): Promise<FastifyInstance> {
   const logger = newLogger();
@@ -17,9 +15,6 @@ export default async function createServer(): Promise<FastifyInstance> {
   Container.set(DotEnvConfig, config);
 
   await connectToDatabase(config.MONGODB_URI, config.MONGODB_DATABASE);
-  const accessTokenRepository = Container.get(AccessTokenRepository);
-  const accessTokenRecord = await accessTokenRepository.getAccessTokenRecord(config.CHANNEL_ID);
-  Container.set(AccessTokenRecordContainerKey, accessTokenRecord.AccessToken);
 
   const messagingService = new MessagingService();
   Container.set(MessagingService, messagingService);

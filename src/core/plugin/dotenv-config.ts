@@ -16,9 +16,6 @@ export class DotEnvConfig {
   @IsIn(Object.values(pino.levels.labels))
   readonly LOG_LEVEL: Level = 'info';
 
-  @IsNotEmpty()
-  readonly CHANNEL_ID: string = '';
-
   @Contains('mongodb')
   readonly MONGODB_URI: string = '';
 
