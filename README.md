@@ -1,6 +1,6 @@
 # line-chatbot
 
-![demo](./README_assets/demo.gif)
+![demo](./_assets/demo.gif)
 
 ## Features
 
@@ -24,6 +24,6 @@ Extra:
 3. Run project (APIs)
 4. Config [APIs Webhook URL](https://manager.line.biz/account/:id/setting/messaging-api) with endpoint `/webhook/:channel_id`
 
-## ref
+## Ref
 
 - [LINE Massaging APIs](https://developers.line.biz/en/reference/messaging-api/#webhook-event-objects)

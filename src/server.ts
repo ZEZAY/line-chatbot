@@ -3,8 +3,8 @@ import Container from 'typedi';
 
 import { DotEnvConfig, LoggerContainerKey, connectToDatabase, errorHandler, newLogger, readConfigFromDotEnv } from './core/plugin';
 import { LineChatbotRoute } from './core/route';
-import { MessagingUsecase } from './domain/messaging/messaging-usecase';
-import { MessagingService } from './domain/messaging/messaging-service';
+import { MessagingService } from './domain/messaging/messaging-usecase';
+import { MessagingApi } from './domain/messaging/messaging-service';
 import { WebhookUsecase } from './domain/webhook/webhook-usecase';
 
 export default async function createServer(): Promise<FastifyInstance> {
@@ -16,11 +16,11 @@ export default async function createServer(): Promise<FastifyInstance> {
 
   await connectToDatabase(config.MONGODB_URI, config.MONGODB_DATABASE);
 
-  const messagingService = new MessagingService();
-  Container.set(MessagingService, messagingService);
+  const messagingService = new MessagingApi();
+  Container.set(MessagingApi, messagingService);
 
-  const messagingUsecase = new MessagingUsecase();
-  Container.set(MessagingUsecase, messagingUsecase);
+  const messagingUsecase = new MessagingService();
+  Container.set(MessagingService, messagingUsecase);
 
   const webhookUsecase = new WebhookUsecase();
   Container.set(WebhookUsecase, webhookUsecase);

@@ -3,12 +3,12 @@ import Container from 'typedi';
 import { LoggerContainerKey } from '../../core/plugin';
 import { AccessTokenRepository } from '../../domain/access-token/access-token-repository';
 import { AccessTokenRecord } from '../../domain/access-token/access-token-dto';
-import { MessagingService } from './messaging-service';
+import { MessagingApi } from './messaging-service';
 import { BroadcastPayload, DirectMessagePayload, ReplyPayload } from './messaging-dto';
 
-export class MessagingUsecase {
+export class MessagingService {
   constructor(
-    private messagingService = Container.get(MessagingService),
+    private messagingService = Container.get(MessagingApi),
     private accessTokenRepo = Container.get(AccessTokenRepository),
     private logger = Container.get(LoggerContainerKey),
   ) {}
@@ -27,7 +27,8 @@ export class MessagingUsecase {
 
   async sendDirectMessageWithPayload(payload: DirectMessagePayload) {
     this.logger.debug(`sendDirectMessageWithPayload payload=${payload}`);
-    const accessToken = await this.accessTokenRepo.getAccessTokenRecord(payload.channelId);
+    // should be in service
+    const accessToken = await this.accessTokenRepo.getByChannelId(payload.channelId);
     const response = await this.messagingService.sendDirectMessage(payload, accessToken);
     return response;
   }
