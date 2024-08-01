@@ -5,7 +5,8 @@ import { LoggerContainerKey } from '../../core/plugin';
 import { AccessTokenRecord } from '../../domain/access-token/access-token-dto';
 import { BroadcastPayload, DirectMessagePayload, ReplyPayload } from './messaging-dto';
 
-export class MessagingService {
+// call by service only
+export class MessagingApi {
   constructor(private logger = Container.get(LoggerContainerKey)) {}
 
   async sendBroadcast(payload: BroadcastPayload, accessTokenRecord: AccessTokenRecord) {
@@ -29,7 +30,9 @@ export class MessagingService {
         'Authorization': `Bearer ${accessTokenRecord.AccessToken}`,
       },
     };
-    const response = await axios.post(endpoint, payload, config);
+    // what body will be
+    const response = await axios.post<{foo: string}>(endpoint, payload, config);
+    response.data.foo
     this.logger.info('sendReply success');
     return response;
   }

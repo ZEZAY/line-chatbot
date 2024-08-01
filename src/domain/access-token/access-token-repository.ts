@@ -7,12 +7,12 @@ import { AccessTokenRecord } from './access-token-dto';
 export class AccessTokenRepository {
   constructor(private collection: Collection<AccessTokenRecord>, private logger = Container.get(LoggerContainerKey)) {}
 
-  async setAccessTokenRecord(channelId: string, token: string) {
+  async setAccessTokenRecord(channelId: string, token: string): Promise<AccessTokenRecord> {
     const newRecord: AccessTokenRecord = {
       ChannelId: channelId,
       AccessToken: token,
     };
-    const record = this.collection.updateOne(
+    const record = await this.collection.updateOne(
       {
         ChannelId: channelId,
       },
@@ -25,7 +25,7 @@ export class AccessTokenRepository {
     return record;
   }
 
-  async getAccessTokenRecord(channelId: string) {
+  async getByChannelId(channelId: string) {
     const record = await this.collection.findOne<AccessTokenRecord>({ ChannelId: channelId });
     if (!record) {
       throw new Error(`getAccessToken failed. Error: record not exist for ChannelId="${channelId}"`);

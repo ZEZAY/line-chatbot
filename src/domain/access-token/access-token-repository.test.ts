@@ -59,7 +59,7 @@ describe('Test accessToken repository', () => {
       },
       { upsert: true },
     );
-    const savedRecord = await accessTokenRepo.getAccessTokenRecord(record.ChannelId);
+    const savedRecord = await accessTokenRepo.getByChannelId(record.ChannelId);
 
     expect(savedRecord?.ChannelId).toEqual(record.ChannelId);
     expect(savedRecord?.AccessToken).toEqual(record.AccessToken);
